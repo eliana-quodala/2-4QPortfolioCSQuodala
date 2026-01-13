@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sample Form </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="icon" href="../../assets/pshslogo.png" sizes="32x32" type="image/png">
+</head>
+<style>
+    form {
+            background-color:rgb(235, 206, 211);
+            font-family:Verdana, Tahoma, sans-serif;
+            box-shadow: 3px 6px 8px #888888;
+        }        
+        form label {
+            color:rgb(59, 44, 34);
+        }
+        input:focus {
+            background-color:rgb(180, 150, 155);
+        }
+        select:focus {
+            background-color:rgb(180, 150, 155);
+        }
+        textarea:focus {
+            background-color:rgb(180, 150, 155);
+        }
+</style>
+<body>
+    <form id="dForm" action="submit" method="post">
+    <fieldset>
+        <legend>Your Credentials</legend><br/>
+        <label> Student ID:
+            
+            <input type="number" name="studentid" id="studentid" required/> 
+        </label><br/><br/>
+        <label> Full Name:
+            <input type="text" name="fullname" id="fullname" required/> 
+        </label><br/><br/>
+        <label> Birthday:
+            <input type="date" name="dob" id="dob" required/> 
+        </label><br/><br/>
+        <label> Email Address:
+            <input type="email" name="emaddress" id="emaddress" required/> 
+        </label><br/><br/>
+    </fieldset>
+    <fieldset>
+        <label> Mobile Phone:
+            <input type="text" name="phonenumber" id="phonenumber" required/> 
+        </label><br/><br/>
+        <label> Grade Level
+            <select name="number" id="level" required>
+                <option value="7">Grade 7</option>
+                <option value="8">Grade 8</option>
+                <option value="9">Grade 9</option>
+                <option value="10">Grade 10</option>
+                <option value="11">Grade 11</option>
+                <option value="12">Grade 12</option>
+            </select>
+        </label><br/><br/>
+        <label> Intern or Extern?
+            <input type="radio" id="intern" name="intern" value="Intern" required/>
+            <label for="Intern">Intern</label>
+            <input type="radio" id="extern" name="extern" value="extern" required/>
+            <label for="Extern">Extern</label>
+        </label><br/><br/>
+        <label> Preferred Club:
+            <select name="clubs" id="clubs" required>
+                <option value="Bake Club">Bake Club</option>
+                <option value="Invictus">Invictus</option>
+                <option value="MUN">MUN</option>
+                <option value="Volant">Volant</option>
+                <option value="Ellipsis">Ellipsis</option>
+                <option value="exposure">Exposure</option>
+                <option value="SaGala">SaGala</option>
+                <option value="Pisay.XYZ">Pisay.XYZ</option>
+            </select>
+        </label><br/><br/>
+        <label> Why do you want to join?
+            <textarea name="why" id="why" required>
+
+            </textarea>
+        </label><br/><br/>
+    </fieldset>  
+    <fieldset>
+        <legend>Action Buttons</legend>
+        <button type="submit"> Accept </button>
+        <input type="reset" value=" Clear " />
+    </fieldset> 
+    </form>
+</body>
+</html>
