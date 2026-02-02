@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Show List of Students Who Signed-Up</title>
+    <style>
+        body { font-family: Arial; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #000; padding: 8px; }
+        th { background: navy; color: white; }
+        .msg { margin-top: 15px; border: 1px solid #000; padding: 8px; }
+    </style>
+</head>
+
+<body>
+
+<h1>Show List of Students Who Signed-Up</h1>
+<a href="./Q3_2GCesiumQuodala.html">Back to Signup</a><br/><br/>
+
+<label>Select Your Club:</label>
+<select id="filter" onchange="display()">
+    <option value="ALL">ALL</option>
+    <option>Bake Club</option>
+    <option>Invictus</option>
+    <option>MUN</option>
+    <option>Volant</option>
+    <option>Ellipsis</option>
+    <option>Exposure</option>
+    <option>SaGala</option>
+    <option>Pisay.XYZ</option>
+</select>
+
+<p id="total"></p>
+
+<div id="output"></div>
+
+<script>
+function display(){
+    let data = JSON.parse(localStorage.getItem("signups"));
+
+    if(!data || data.length === 0){
+        output.innerHTML = "<div class='msg'>No sign-ups saved.</div>";
+        total.textContent = "";
+        return;
+    }
+
+    let club = filter.value;
+    let filtered = club === "ALL" ? data : data.filter(d => d.club === club);
+
+    total.textContent = "Total Signup : " + filtered.length;
+
+    if(filtered.length === 0){
+        output.innerHTML = "<div class='msg'>No Sign Ups for the club</div>";
+        return;
+    }
+
+    let html = `
+    <table>
+        <tr>
+            <th>Club</th><th>ID</th><th>Fullname</th>
+            <th>Grade</th><th>Email</th><th>Mobile</th><th>Intern|Extern</th>
+        </tr>`;
+
+    filtered.forEach(d=>{
+        html += `
+        <tr>
+            <td>${d.club}</td>
+            <td>${d.id}</td>
+            <td>${d.fullname}</td>
+            <td>${d.grade}</td>
+            <td>${d.email}</td>
+            <td>${d.mobile}</td>
+            <td>${d.status}</td>
+        </tr>`;
+    });
+
+    html += "</table>";
+    output.innerHTML = html;
+}
+
+display();
+</script>
+
+</body>
+</html>

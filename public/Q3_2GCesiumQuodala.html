@@ -82,12 +82,39 @@
 
             </textarea>
         </label><br/><br/>
-    </fieldset>  
-    <fieldset>
-        <legend>Action Buttons</legend>
-        <button type="submit"> Accept </button>
-        <input type="reset" value=" Clear " />
-    </fieldset> 
+        <fieldset>
+            <legend>Action Buttons</legend>
+            <button type="submit">Accept</button>
+            <input type="reset" value="Clear"/>
+            <button type="button" onclick="location.href='./signups.html'">View Signups</button>
+        </fieldset> 
     </form>
+
+<script>
+document.getElementById("dForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let signups = JSON.parse(localStorage.getItem("signups")) || [];
+
+    let entry = {
+        id: studentid.value,
+        fullname: fullname.value,
+        dob: dob.value,
+        email: emaddress.value,
+        mobile: phonenumber.value,
+        grade: level.value,
+        status: document.querySelector('input[name="status"]:checked').value,
+        club: clubs.value,
+        reason: why.value
+    };
+
+    signups.push(entry);
+    localStorage.setItem("signups", JSON.stringify(signups));
+
+    alert("Signup saved!");
+    this.reset();
+});
+</script>
+
 </body>
 </html>
