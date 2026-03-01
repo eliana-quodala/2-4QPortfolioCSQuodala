@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Q4 Exercise 1 - Movie List</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        display: flex;
+        justify-content: center;
+        padding: 30px;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        width: 600px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    .stars {
+        font-size: 28px;
+        margin-top: 5px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .star {
+        color: #ccc;
+    }
+
+    .star.active {
+        color: gold;
+    }
+
+    button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        font-size: 18px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #0056b3;
+    }
+
+    .movie-item {
+        border: 1px solid #ddd;
+        padding: 12px;
+        margin-top: 10px;
+        border-radius: 6px;
+        background: #fafafa;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Add a Movie</h1>
+
+    <label>Title:</label>
+    <input type="text" id="title">
+
+    <label>Year:</label>
+    <input type="number" id="year">
+
+    <label>Genre:</label>
+    <select id="genre">
+        <option>Action</option>
+        <option>Comedy</option>
+        <option>Drama</option>
+        <option>Fantasy</option>
+        <option>Horror</option>
+        <option>Sci-Fi</option>
+    </select>
+
+    <label>Rating:</label>
+    <div class="stars" id="starContainer">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+
+    <button onclick="addMovie()">Add Movie</button>
+
+    <h2>Movie List</h2>
+    <div id="movieList"></div>
+</div>
+
+<script>
+let selectedRating = 0;
+
+const stars = document.querySelectorAll(".star");
+stars.forEach(star => {
+    star.addEventListener("click", function() {
+        selectedRating = this.dataset.value;
+        updateStarDisplay(selectedRating);
+    });
+});
+
+function updateStarDisplay(rating) {
+    stars.forEach(star => {
+        star.classList.remove("active");
+        if (star.dataset.value <= rating) {
+            star.classList.add("active");
+        }
+    });
+}
+
+function addMovie() {
+    const title = document.getElementById("title").value.trim();
+    const year = document.getElementById("year").value.trim();
+    const genre = document.getElementById("genre").value;
+
+    if (!title || !year || selectedRating == 0) {
+        alert("Please complete all fields.");
+        return;
+    }
+
+    const movie = {
+        title: title,
+        year: year,
+        genre: genre,
+        rating: selectedRating.toString()
+    };
+
+    let movies = JSON.parse(localStorage.getItem("movies")) || [];
+    movies.push(movie);
+
+    localStorage.setItem("movies", JSON.stringify(movies));
+
+    displayMovies();
+    resetForm();
+}
+
+function displayMovies() {
+    const movieList = document.getElementById("movieList");
+    movieList.innerHTML = "";
+
+    const movies = JSON.parse(localStorage.getItem("movies")) || [];
+
+    movies.forEach(movie => {
+        const div = document.createElement("div");
+        div.className = "movie-item";
+
+        div.innerHTML =
+            `${movie.title} (${movie.year}) - ${movie.genre}, Rating: ${getStars(movie.rating)}`;
+
+        movieList.appendChild(div);
+    });
+}
+
+function getStars(rating) {
+    let stars = "";
+    for (let i = 0; i < rating; i++) stars += "★";
+    for (let i = rating; i < 5; i++) stars += "☆";
+    return `<span style="color:gold">${stars}</span>`;
+}
+
+function resetForm() {
+    document.getElementById("title").value = "";
+    document.getElementById("year").value = "";
+    selectedRating = 0;
+    updateStarDisplay(0);
+}
+
+displayMovies();
+</script>
+
+</body>
+</html>
