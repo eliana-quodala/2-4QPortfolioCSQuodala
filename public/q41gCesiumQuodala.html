@@ -5,79 +5,95 @@
 <title>Q4 Exercise 1 - Movie List</title>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f4f6f8;
-        display: flex;
-        justify-content: center;
-        padding: 30px;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe4ef, #ffd6e8);
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
 
-    .container {
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        width: 600px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    width: 600px;
+    box-shadow: 0 6px 18px rgba(255, 158, 203, 0.35);
+}
 
-    h1, h2 {
-        text-align: center;
-    }
+h1, h2 {
+    text-align: center;
+    color: #d63384;
+}
 
-    label {
-        display: block;
-        margin-top: 15px;
-        font-weight: bold;
-    }
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #c2185b;
+}
 
-    input, select {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-    }
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ffc0cb;
+    font-size: 16px;
+    background-color: #fff7fb;
+}
 
-    .stars {
-        font-size: 28px;
-        margin-top: 5px;
-        cursor: pointer;
-        user-select: none;
-    }
+input:focus, select:focus {
+    outline: none;
+    border-color: #ff9ecb;
+    box-shadow: 0 0 5px #ffb6d9;
+}
 
-    .star {
-        color: #ccc;
-    }
+.stars {
+    font-size: 28px;
+    margin-top: 5px;
+    cursor: pointer;
+    user-select: none;
+}
 
-    .star.active {
-        color: gold;
-    }
+.star {
+    color: #ccc;
+    transition: 0.2s;
+}
 
-    button {
-        margin-top: 20px;
-        width: 100%;
-        padding: 12px;
-        font-size: 18px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-    }
+.star.active {
+    color: #ffb300;
+}
 
-    button:hover {
-        background: #0056b3;
-    }
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    background: linear-gradient(135deg, #ff9ecb, #ff7fb5);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(255, 126, 185, 0.4);
+    transition: 0.2s;
+}
 
-    .movie-item {
-        border: 1px solid #ddd;
-        padding: 12px;
-        margin-top: 10px;
-        border-radius: 6px;
-        background: #fafafa;
-    }
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 126, 185, 0.5);
+}
+
+.movie-item {
+    border: 1px solid #ffd6e8;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 10px;
+    background: #fff0f6;
+    color: #6a1b4d;
+    font-weight: 500;
+}
 </style>
 </head>
 
