@@ -100,117 +100,169 @@ button:hover {
 <body>
 
 <div class="container">
-    <h1>Add a Movie</h1>
 
-    <label>Title:</label>
-    <input type="text" id="title">
+<h1>Add / Update a Movie Rating</h1>
 
-    <label>Year:</label>
-    <input type="number" id="year">
+<label>Title:</label>
+<input type="text" id="title">
 
-    <label>Genre:</label>
-    <select id="genre">
-        <option>Action</option>
-        <option>Comedy</option>
-        <option>Drama</option>
-        <option>Fantasy</option>
-        <option>Horror</option>
-        <option>Sci-Fi</option>
-    </select>
+<label>Year:</label>
+<input type="number" id="year">
 
-    <label>Rating:</label>
-    <div class="stars" id="starContainer">
-        <span class="star" data-value="1">★</span>
-        <span class="star" data-value="2">★</span>
-        <span class="star" data-value="3">★</span>
-        <span class="star" data-value="4">★</span>
-        <span class="star" data-value="5">★</span>
-    </div>
+<label>Genre:</label>
+<select id="genre">
+<option>Action</option>
+<option>Comedy</option>
+<option>Drama</option>
+<option>Fantasy</option>
+<option>Horror</option>
+<option>Sci-Fi</option>
+</select>
 
-    <button onclick="addMovie()">Add Movie</button>
+<label>Rating:</label>
+<div class="stars" id="starContainer">
+<span class="star" data-value="1">★</span>
+<span class="star" data-value="2">★</span>
+<span class="star" data-value="3">★</span>
+<span class="star" data-value="4">★</span>
+<span class="star" data-value="5">★</span>
+</div>
 
-    <h2>Movie List</h2>
-    <div id="movieList"></div>
+<button onclick="addMovie()">Add Movie</button>
+
+<h2>Movie List</h2>
+<div id="movieList"></div>
+
 </div>
 
 <script>
+
 let selectedRating = 0;
 
 const stars = document.querySelectorAll(".star");
-stars.forEach(star => {
-    star.addEventListener("click", function() {
+
+stars.forEach(star=>{
+    star.addEventListener("click",function(){
         selectedRating = this.dataset.value;
         updateStarDisplay(selectedRating);
     });
 });
 
-function updateStarDisplay(rating) {
-    stars.forEach(star => {
+function updateStarDisplay(rating){
+
+    stars.forEach(star=>{
         star.classList.remove("active");
-        if (star.dataset.value <= rating) {
+
+        if(star.dataset.value <= rating){
             star.classList.add("active");
         }
     });
 }
 
-function addMovie() {
-    const title = document.getElementById("title").value.trim();
-    const year = document.getElementById("year").value.trim();
-    const genre = document.getElementById("genre").value;
+function addMovie(){
 
-    if (!title || !year || selectedRating == 0) {
+    const title=document.getElementById("title").value.trim();
+    const year=document.getElementById("year").value.trim();
+    const genre=document.getElementById("genre").value;
+
+    if(!title || !year || selectedRating==0){
         alert("Please complete all fields.");
         return;
     }
 
-    const movie = {
-        title: title,
-        year: year,
-        genre: genre,
-        rating: selectedRating.toString()
-    };
+    let movies=JSON.parse(localStorage.getItem("movies")) || [];
 
-    let movies = JSON.parse(localStorage.getItem("movies")) || [];
-    movies.push(movie);
+    let existingMovie = movies.find(movie =>
+        movie.title.toLowerCase() === title.toLowerCase()
+    );
 
-    localStorage.setItem("movies", JSON.stringify(movies));
+    if(existingMovie){
+
+        existingMovie.year = year;
+        existingMovie.genre = genre;
+
+        let avg = Math.round(
+            (parseInt(existingMovie.rating) + parseInt(selectedRating)) / 2
+        );
+
+        existingMovie.rating = avg.toString();
+
+    }else{
+
+        const movie={
+            title:title,
+            year:year,
+            genre:genre,
+            rating:selectedRating.toString()
+        };
+
+        movies.push(movie);
+    }
+
+    localStorage.setItem("movies",JSON.stringify(movies));
 
     displayMovies();
     resetForm();
 }
 
-function displayMovies() {
-    const movieList = document.getElementById("movieList");
-    movieList.innerHTML = "";
+function displayMovies(){
 
-    const movies = JSON.parse(localStorage.getItem("movies")) || [];
+    const movieList=document.getElementById("movieList");
+    movieList.innerHTML="";
 
-    movies.forEach(movie => {
-        const div = document.createElement("div");
-        div.className = "movie-item";
+    const movies=JSON.parse(localStorage.getItem("movies")) || [];
+
+    movies.forEach((movie,index)=>{
+
+        const div=document.createElement("div");
+        div.className="movie-item";
 
         div.innerHTML =
-            `${movie.title} (${movie.year}) - ${movie.genre}, Rating: ${getStars(movie.rating)}`;
+        `${movie.title} (${movie.year}) - ${movie.genre}, Rating: ${getStars(movie.rating)}
+        <button class="delete-btn" onclick="deleteMovie(${index})">Delete</button>`;
 
         movieList.appendChild(div);
+
     });
 }
 
-function getStars(rating) {
-    let stars = "";
-    for (let i = 0; i < rating; i++) stars += "★";
-    for (let i = rating; i < 5; i++) stars += "☆";
+function deleteMovie(index){
+
+    const confirmDelete = confirm("Are you sure you want to delete?");
+
+    if(confirmDelete){
+
+        let movies=JSON.parse(localStorage.getItem("movies")) || [];
+
+        movies.splice(index,1);
+
+        localStorage.setItem("movies",JSON.stringify(movies));
+
+        displayMovies();
+    }
+}
+
+function getStars(rating){
+
+    let stars="";
+
+    for(let i=0;i<rating;i++) stars+="★";
+    for(let i=rating;i<5;i++) stars+="☆";
+
     return `<span style="color:gold">${stars}</span>`;
 }
 
-function resetForm() {
-    document.getElementById("title").value = "";
-    document.getElementById("year").value = "";
-    selectedRating = 0;
+function resetForm(){
+
+    document.getElementById("title").value="";
+    document.getElementById("year").value="";
+    selectedRating=0;
+
     updateStarDisplay(0);
 }
 
 displayMovies();
+
 </script>
 
 </body>
