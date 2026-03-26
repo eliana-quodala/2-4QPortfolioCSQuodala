@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="author" content="Eliana Gabrielle Victoria M. Quodala" />
+  <meta name="revised" content="March 27, 2026" />
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .header, .footer {
+      background: lightblue;
+      padding: 10px;
+    }
+    .footer {
+       opacity: 0.5;
+       position: fixed; bottom: 0; width: 100%;
+       /* guide question 2 : it behaves differently from relative since relative moves the container based on specific dimensions written. position:fixed makes it so the footer overlaps the rest of the document.*/
+    }
+    .sidebar {
+      background: lightgreen;
+      width: 150px;
+      height: 200px;
+      position: relative; top: 20px; left: 20px;
+      /* guide question 1 : compared to the default positioning, the css added simply moved the sidebar to another area, keeping all dimensions intact. */
+    }
+    .content {
+      background: lightyellow;
+      width: 300px;
+      height: 200px;
+      position: absolute; top: 66px; left: 200px;
+      z-index: 1;
+      /* guide question 3 : position:absolute has a fixed area so other elements have to move around it. */
+    }
+    .notice {
+        position: absolute;
+        top: 60px;
+        left: 400px;
+        background: orange;
+        padding: 10px;
+        z-index: 2;
+        /* guide question 4 : the z index values cause unusual overlapping of elements. if we swap z values, the content will go on top of notice. */
+    }    
+  </style>
+</head>
+<body>
+  <div class="header">Header</div>
+  <div class="sidebar">Sidebar</div>
+  <div class="content">Main Content</div>
+  <div class="footer">Footer</div>
+  <div class="notice">Notice!</div>
+</body>
+</html>
