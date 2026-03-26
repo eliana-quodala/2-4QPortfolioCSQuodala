@@ -41,3 +41,29 @@ Submit the links to your .md file and .html file.
   <div class="footer">Footer</div>
 </body>
 </html>
+
+### Step 1 (Static vs Relative):
+Guided Question: What changed compared to the default static positioning? Try to give different values to top and left or you can change it to bottom, right.
+--> answer: Compared to the default positioning, the css added simply moved the sidebar to another area, keeping all dimensions intact.
+
+### Step 2 (Fixed):
+Guided Question: What happens when you scroll the page? Why does the footer behave differently from position relative?
+--> answer: It behaves differently from relative since relative moves the container based on specific dimensions written. position:fixed makes it so the footer overlaps the rest of the document.
+
+### Step 3 (Absolute): 
+Guided Question: What is the effect of position: absolute on an element? How is it different from fixed?
+--> answer: Position:absolute has a fixed area so other elements have to move around it. It's only visible when you scroll to the page it's on, while fixed remains constant on your screen as you go through the webpage. 
+
+### Step 4 (Absolute):
+Guided Question: Why does the notice appear on top of the content? What happens if you swap the z‑index values?
+--> answer: The z index values cause unusual overlapping of elements. if we swap z values, the content will go on top of notice.
+
+## Challenge
+What changes that you have to do on the code that will position .notice box on the top right corner of the .content box? Please write the code on paper as well (both html and css on the part of .notice and .content).
+--> answer: 
+
+Try to change the position of .content to relative then to fixed. What do you observed each time?
+--> answer: 
+
+What do you observe on about the effect of z-index on .notice and .content boxes?
+--> answer: 
