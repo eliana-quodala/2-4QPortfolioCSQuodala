@@ -1,4 +1,4 @@
-### Instructions:
+## Instructions:
 This is individual submission in khub, but you can work with a partner. When you submit in khub please place both your names in the submission bin.
 
 Guided Activity (30 minutes), please follow what is being required.
@@ -60,10 +60,23 @@ Guided Question: Why does the notice appear on top of the content? What happens 
 
 ## Challenge
 What changes that you have to do on the code that will position .notice box on the top right corner of the .content box? Please write the code on paper as well (both html and css on the part of .notice and .content).
---> answer: 
+--> answer: I just have to make the top and right px equal to 0, so there will be no space from the top and from the right.
 
 Try to change the position of .content to relative then to fixed. What do you observed each time?
---> answer: 
+--> answer: When it is relative it moves down, then when it is fixed, it stays on my screen the whole time.
 
 What do you observe on about the effect of z-index on .notice and .content boxes?
---> answer: 
+--> answer: The effect of the z-index causes the one with z-index of 2 to overlap the one with a z-index of 1. The numbers represent the layers, and how it can overlap and be viewed on screen.
+
+## Please answer the following reflection questions (15 minutes)
+a. Could you summarize the differences between the CSS position values (static, relative, absolute, fixed)?
+--> answer: Static follows default flow of the document, and offset properties have no effect on it. Relative has to have specified values and stays on screen only when you're on the page. Absolute is the same, except other elements cannot touch it, and have to adjust to its positioning. Fixed causes the element to remain on your screen at all times while browsing the webpage.
+
+b. How does absolute positioning depend on its parent element?
+--> answer: It's attracted to and positioned next to any element with a position value of anything except static.
+
+c. How do you differentiate sticky from fixed (you can research on sticky)?
+--> answer: Fixed is always on screen, while Sticky acts like a regular element until it reaches an offset, at which point it turns into fixed. 
+
+d. If you were designing a webpage for a school event, how might you use positioning to highlight important information? Please give concrete examples.
+--> answer: I might use fixed to position the heading and footer, where the heading will have event details and the footer would have the contact information for people of authority. Absolute value might be used as the centerpiece, with other extra info surrounding it. I would use Sticky value to promote activities to sign up for. 
