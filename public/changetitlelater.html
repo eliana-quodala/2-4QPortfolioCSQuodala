@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Nlogonia</title>
+
+<style>
+#map {
+  position: relative; /* IMPORTANT: reference for absolute elements */
+  width: 500px;
+  height: 500px;
+  border: 2px solid black;
+}
+
+.point {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#division { background: blue; }
+#residence { background: red; }
+
+.line {
+  position: absolute;
+  background: black;
+}
+
+#vertical {
+  width: 2px;
+  height: 100%;
+}
+
+#horizontal {
+  height: 2px;
+  width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<input id="N" placeholder="N">
+<input id="M" placeholder="M"><br><br>
+
+<input id="X" placeholder="X">
+<input id="Y" placeholder="Y"><br><br>
+
+<button onclick="run()">Check</button>
+
+<p id="output"></p>
+
+<div id="map">
+  <div id="vertical" class="line"></div>
+  <div id="horizontal" class="line"></div>
+  <div id="division" class="point"></div>
+  <div id="residence" class="point"></div>
+</div>
+
+<script>
+// Correct comparison and logic
+function classify(N, M, X, Y) {
+  if (X === N || Y === M) return "divisa"; // strict equality
+  if (X < N && Y > M) return "NO";
+  if (X > N && Y > M) return "NE";
+  if (X > N && Y < M) return "SE";
+  return "SO";
+}
+
+function run() {
+  const N = parseInt(document.getElementById("N").value);
+  const M = parseInt(document.getElementById("M").value);
+  const X = parseInt(document.getElementById("X").value);
+  const Y = parseInt(document.getElementById("Y").value);
+
+  document.getElementById("output").textContent =
+    classify(N, M, X, Y);
+
+  plot(N, M, X, Y);
+}
+
+function plot(N, M, X, Y) {
+  const map = document.getElementById("map");
+  const div = document.getElementById("division");
+  const res = document.getElementById("residence");
+  const v = document.getElementById("vertical");
+  const h = document.getElementById("horizontal");
+
+  const w = map.offsetWidth;   // correct DOM property
+  const hgt = map.offsetHeight;
+
+  const scale = 0.02;
+
+  const centerX = w / 2 - N * scale * 500;
+  const centerY = hgt / 2 + M * scale * 500;
+
+  // must include "px"
+  div.style.left = centerX + "px";
+  div.style.top = centerY + "px";
+
+  res.style.left = centerX + (X - N) * scale * 500 + "px";
+  res.style.top = centerY - (Y - M) * scale * 500 + "px";
+
+  v.style.left = centerX + "px";
+  h.style.top = centerY + "px";
+}
+</script>
+
+</body>
+</html>

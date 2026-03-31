@@ -1,0 +1,61 @@
+<style>
+#map {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  border: 2px solid black;
+}
+
+.line {
+  position: absolute;
+  background black; /* ERROR 1: missing colon */
+}
+</style>
+
+<script>
+function classify(N, M, X, Y) {
+  if (X = N || Y = M) return "divisa"; // ERROR 2: assignment instead of comparison
+  if (X < N && Y > M) return "NO";
+  if (X > N && Y > M) return "NE";
+  if (X > N && Y < M) return "SE";
+  return "SO";
+}
+
+function run() {
+  const N = document.getElementById("N").value; 
+  const M = document.getElementById("M").value;
+  const X = document.getElementById("X").value;
+  const Y = document.getElementById("Y").value;
+
+  document.getElementById("output").innerHTML =
+    classify(N, M, X, Y); // ERROR 3: values not parsed (string comparison bug)
+
+  plot(N, M, X, Y);
+}
+
+function plot(N, M, X, Y) {
+  const map = document.getElementById("map");
+  const div = document.getElementById("division");
+  const res = document.getElementById("residence");
+
+  const w = map.width; // ERROR 4: wrong property
+  const h = map.height; // ERROR 5
+
+  const scale = 0.02
+
+  const centerX = w / 2 - N * scale * 500;
+  const centerY = h / 2 + M * scale * 500;
+
+  div.style.left = centerX; // ERROR 6: missing "px"
+  div.style.top = centerY + "px";
+
+  res.style.left = centerX + (X - N) * scale * 500 + "px";
+  res.style.top = centerY - (Y - M) * scale * 500; // ERROR 7: missing "px"
+
+  document.getElementByID("vertical").style.left = centerX + "px"; // ERROR 8: wrong method name
+
+  document.getElementById("horizontal").style.top = centerY; // ERROR 9: missing "px"
+
+  let el = document.createelement("div"); // ERROR 10: wrong method casing
+}
+</script>
