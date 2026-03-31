@@ -1,61 +1,139 @@
-<style>
-#map {
-  position: relative;
-  width: 500px;
-  height: 500px;
-  border: 2px solid black;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nlogonia Residence Checker</title>
 
-.line {
-  position: absolute;
-  background black; /* ERROR 1: missing colon */
-}
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+
+  #map {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: 2px solid black;
+    background: #e0f7fa;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #division {
+    background: blue;
+  }
+
+  #residence {
+    background red; /* ERROR 1: missing colon */
+  }
+
+  .line {
+    position: absolute;
+    background: black;
+  }
+
+  #verticalLine {
+    width: 2px;
+    height: 100%;
+  }
+
+  #horizontalLine {
+    height: 2px;
+    width: 100%;
+  }
+
+  #info {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+  }
 </style>
+</head>
+
+<body>
+
+<h2>Nlogonia Residence Checker</h2>
+
+<label>Division Point (N, M): </label>
+<input type="number" id="N" placeholder="N">
+<input type="number" id="M" placeholder="M"><br><br>
+
+<label>Residence (X, Y): </label>
+<input type="number" id="X" placeholder="X">
+<input type="number" id="Y" placeholder="Y"><br><br>
+
+<button onclick="checkResidence()">Check Country</button>
+
+<div id="info"></div>
+
+<div id="map">
+  <div id="verticalLine" class="line"></div>
+  <div id="horizontalLine" class="line"></div>
+  <div id="division" class="point"></div>
+  <div id="residence" class="point"></div>
+</div>
 
 <script>
-function classify(N, M, X, Y) {
-  if (X = N || Y = M) return "divisa"; // ERROR 2: assignment instead of comparison
-  if (X < N && Y > M) return "NO";
-  if (X > N && Y > M) return "NE";
-  if (X > N && Y < M) return "SE";
-  return "SO";
+function classifyResidence(N, M, X, Y) {
+    if (X = N || Y === M) return 'divisa'; // ERROR 2: assignment instead of comparison
+    if (X < N && Y > M) return 'NO';
+    if (X > N && Y > M) return 'NE';
+    if (X > N && Y < M) return 'SE';
+    return 'SO';
 }
 
-function run() {
-  const N = document.getElementById("N").value; 
-  const M = document.getElementById("M").value;
-  const X = document.getElementById("X").value;
-  const Y = document.getElementById("Y").value;
+function checkResidence() {
+    const N = document.getElementById('N').value; // ERROR 3: missing parseInt
+    const M = document.getElementById('M').value; // ERROR 4
+    const X = document.getElementById('X').value; // ERROR 5
+    const Y = document.getElementById('Y').value; // ERROR 6
 
-  document.getElementById("output").innerHTML =
-    classify(N, M, X, Y); // ERROR 3: values not parsed (string comparison bug)
+    const result = classifyResidence(N, M, X, Y);
+    document.getElementById('info').innerHTML = result; // ERROR 7: not wrong but inconsistent output format
 
-  plot(N, M, X, Y);
+    plot(N, M, X, Y);
 }
 
 function plot(N, M, X, Y) {
-  const map = document.getElementById("map");
-  const div = document.getElementById("division");
-  const res = document.getElementById("residence");
+    const map = document.getElementById('map');
+    const division = document.getElementById('division');
+    const residence = document.getElementById('residence');
+    const vLine = document.getElementByID('verticalLine'); // ERROR 8: wrong method name
+    const hLine = document.getElementById('horizontalLine');
 
-  const w = map.width; // ERROR 4: wrong property
-  const h = map.height; // ERROR 5
+    const w = map.width; // ERROR 9: should be offsetWidth
+    const h = map.height; // ERROR 10: should be offsetHeight
 
-  const scale = 0.02
+    const scale = 0.02;
 
-  const centerX = w / 2 - N * scale * 500;
-  const centerY = h / 2 + M * scale * 500;
+    const centerX = w / 2 - N * scale * 500;
+    const centerY = h / 2 + M * scale * 500;
 
-  div.style.left = centerX; // ERROR 6: missing "px"
-  div.style.top = centerY + "px";
+    division.style.left = centerX; // ERROR 11: missing px
+    division.style.top = `${centerY}px`;
 
-  res.style.left = centerX + (X - N) * scale * 500 + "px";
-  res.style.top = centerY - (Y - M) * scale * 500; // ERROR 7: missing "px"
+    const resX = centerX + (X - N) * scale * 500;
+    const resY = centerY - (Y - M) * scale * 500;
+    residence.style.left = `${resX}px`;
+    residence.style.top = resY; // ERROR 12: missing px
 
-  document.getElementByID("vertical").style.left = centerX + "px"; // ERROR 8: wrong method name
+    vLine.style.left = `${centerX}px`;
+    vLine.style.top = `0px`;
 
-  document.getElementById("horizontal").style.top = centerY; // ERROR 9: missing "px"
-
-  let el = document.createelement("div"); // ERROR 10: wrong method casing
+    hLine.style.top = `${centerY}px`;
+    hLine.style.left = `0px`;
 }
 </script>
+
+</body>
+</html>
