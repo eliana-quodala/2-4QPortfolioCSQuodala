@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nlogonia Residence Checker</title>
+
+<style>
+
+  /* The first error is found on line 36 in the CSS section, 
+  where background red; is missing a colon and should be corrected to background: red;. 
+  The second error occurs on line 73 in the JavaScript section, where X = N uses an assignment operator 
+  instead of a comparison operator and must be changed to X === N to properly check equality. 
+  The third to sixth errors are located on lines 80–83, where the values of N, M, X, and Y are retrieved without 
+  using parseInt(), causing them to be treated as strings; each should be wrapped with parseInt() to ensure correct numerical comparisons. 
+  The seventh error appears on line 86, where innerHTML is used; while not always incorrect, 
+  it is safer and more appropriate to use textContent to avoid unintended HTML parsing and to match the intended output format. 
+  The eighth error is on line 93, where getElementByID is incorrectly capitalized and should be corrected to getElementById, as JavaScript is case-sensitive. 
+  The ninth and tenth errors occur on lines 96 and 97, where map.width and map.height are used; these should be replaced with map.offsetWidth and map.offsetHeight to correctly obtain the rendered dimensions of the element. 
+  Additionally, on line 103, division.style.left is missing the "px" unit and should be written as ${centerX}px, and on line 108, residence.style.top is also missing "px" and must be corrected similarly to ensure proper positioning on the map. 
+  Below is the updated CORRECT code. */
+  
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+
+  #map {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: 2px solid black;
+    background: #e0f7fa;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #division {
+    background: blue;
+  }
+
+  #residence {
+    background: red;
+  }
+
+  .line {
+    position: absolute;
+    background: black;
+  }
+
+  #verticalLine {
+    width: 2px;
+    height: 100%;
+  }
+
+  #horizontalLine {
+    height: 2px;
+    width: 100%;
+  }
+
+  #info {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+</style>
+</head>
+
+<body>
+
+<h2>Nlogonia Residence Checker</h2>
+
+<label>Division Point (N, M): </label>
+<input type="number" id="N" placeholder="N">
+<input type="number" id="M" placeholder="M"><br><br>
+
+<label>Residence (X, Y): </label>
+<input type="number" id="X" placeholder="X">
+<input type="number" id="Y" placeholder="Y"><br><br>
+
+<button onclick="checkResidence()">Check Country</button>
+
+<div id="info"></div>
+
+<div id="map">
+  <!-- Axis lines -->
+  <div id="verticalLine" class="line"></div>
+  <div id="horizontalLine" class="line"></div>
+
+  <!-- Points -->
+  <div id="division" class="point"></div>
+  <div id="residence" class="point"></div>
+</div>
+
+<script>
+function classifyResidence(N, M, X, Y) {
+    if (X === N || Y === M) return 'divisa';
+    if (X < N && Y > M) return 'NO';
+    if (X > N && Y > M) return 'NE';
+    if (X > N && Y < M) return 'SE';
+    return 'SO';
+}
+
+function checkResidence() {
+    const N = parseInt(document.getElementById('N').value);
+    const M = parseInt(document.getElementById('M').value);
+    const X = parseInt(document.getElementById('X').value);
+    const Y = parseInt(document.getElementById('Y').value);
+
+    const result = classifyResidence(N, M, X, Y);
+    document.getElementById('info').textContent = `The residence is in: ${result}`;
+
+    plot(N, M, X, Y);
+}
+
+function plot(N, M, X, Y) {
+    const map = document.getElementById('map');
+    const division = document.getElementById('division');
+    const residence = document.getElementById('residence');
+    const vLine = document.getElementById('verticalLine');
+    const hLine = document.getElementById('horizontalLine');
+
+    const w = map.offsetWidth;
+    const h = map.offsetHeight;
+
+    const scale = 0.02;
+
+    // Convert division point to screen center
+    const centerX = w / 2 - N * scale * 500;
+    const centerY = h / 2 + M * scale * 500;
+
+    // Position division point
+    division.style.left = `${centerX}px`;
+    division.style.top = `${centerY}px`;
+
+    // Position residence
+    const resX = centerX + (X - N) * scale * 500;
+    const resY = centerY - (Y - M) * scale * 500;
+    residence.style.left = `${resX}px`;
+    residence.style.top = `${resY}px`;
+
+    // Draw vertical line (x = N)
+    vLine.style.left = `${centerX}px`;
+    vLine.style.top = `0px`;
+
+    // Draw horizontal line (y = M)
+    hLine.style.top = `${centerY}px`;
+    hLine.style.left = `0px`;
+}
+</script>
+
+</body>
+</html>
